@@ -3,15 +3,14 @@
 *Źródło: moje doświadczenia*
 
 - Javascript to dynamiczny język programowania, który po dodaniu do dokumentu HTML, może dostarczyć dynamiczną zawartość do stron internetowych.
-
 - Javascript działa po stronie klienta
-
 - Podstawowe zastosowanie to manipulacja DOM, czyli programowej reprezentacji zawartości witryny
-
 - W praktyce oznacza to dynamiczne zarządzanie wyglądem i treścią strony
   - Możliwe jest ustawienie odpowiedzi na różne wykryte zdarzenia (eventy) np. naciśnięcie przycisku, lub kliknięcie myszką
   - Możliwa jest wtedy zmiana stylu lub zawartości
 - Możliwe wykonywanie jest wykonywanie zapytań HTTP do zewnętrznych API. Podstawowym narzędziem jest XMLHTTPRequest. Nowocześniejszym i wygodniejszym w użyciu narzędziem jest jednak Fetch API lub axios.
+- API canvas i webGL do animacji 2D i 3D
+- NodeJS - Javascript po stronie serwera
 
 ### Podstawowe operacje i algorytmy przetwarzania obrazów. Morfologia matematyczna
 
@@ -20,46 +19,20 @@
 ###### Operacja bezkonstekstowe punktowe (bezkontekstowe):
 
 - są funkcją wartości pikseli i nie zależą od lokalizacji i sąsiedztwa (otoczenia, kontekstu) przekształcanego piksela
-
 - zmianie mogą ulec jedynie wartości (jasność) poszczególnych pikseli w obrazie
-
 - najczęstszymi operacjami są operacje liniowe, potęgowe oraz logarytmiczne
-
 - wszystkie piksele o jednakowej intensywności są traktowane identycznie
-
 - służą jako metody poprawy jakości obrazu:
   - poprawa kontrastu lub jasności
   - uwypuklenie pewnych cech
   - zmiana histogramu
   - zmiana kolorów
 
-###### Operacje kontekstowe
+**Przykładowe operacje bezkontekstowe**
 
-- modyfikacja poszczególnych elementów obrazu w zależności od stanu ich samych i ich otoczenia
-- mogą zajmować dużo czasu
-- algorytmy są proste i regularne a ponadto mogą być wykonywane na wszystkich punktach obrazu jednocześnie
-
-###### Operacje morfologiczne
-
-- pozwalają przeprowadzić zaawansowaną analizę kształtów poszczególnych obiektów poszczególnych obiektów, oraz odległości między nimi
-- podstawowe operacje morfologiczne można ze sobą łączyć, co daję podstawę do budowania skomplikowanych systemów analizy obrazu
-
-###### Operacje geometryczne
-
-- pozwalają ujednolicić format obrazów
-- mogą być stosowane w celu wyeliminowania zniekształceń (np. zniekształcenia powodowane przez szerokokątne obiektywy)
-
-###### Operacje afiniczne
-
-Definiowane jako przekształcenia macierzy:
-
-- translacja
-- skalowanie
-- odbicie
-- obrót
-- pochylenie
-- jednokładność
-- dowolne złożenie powyższych
+- Wyrównanie histogramu
+  - poprawienie kontrastu analizowanego obrazu z wykorzystaniem jego histogramu
+  - osiąga dobre wyniki, gdy obraz reprezentowany jest przez wartości z niewielkiego zakresu. Wartości zostaną rozciągnięte wtedy na szerszy zakres
 
 ---
 
@@ -68,29 +41,45 @@ Definiowane jako przekształcenia macierzy:
 - oś X pokazuje wszystkie moźliwe intensywności w obrazie
 - wysokość słupka proporcjonalna do liczby pikseli o intensywności x
 
----
+----
 
-###### Wyrównanie histogramu
 
-- poprawienie kontrastu analizowanego obrazu z wykorzystaniem jego histogramu
-- osiąga dobre wyniki, gdy obraz reprezentowany jest przez wartości z niewielkiego zakresu. Wartości zostaną rozciągnięte wtedy na szerszy zakres
 
-###### Filtracja
+- Binaryzacja / progowanie
+  - metoda uzyskiwania obrazu binarnego, na podstawie kolorowego, lub w obszarach szarości
+  - każdy piksel zapisany na 1 bicie
+  - wyznaczeniu dla danego obrazu progu jasności, a następnie piksele jaśniejsze od wyznaczonego progu otrzymują jedną wartość (np. 0), a ciemniejsze drugą (np. 255)
+  - zastosowanie: oddzielanie obiektów pierwszoplanowych od tła
+  - różne metody progowania (oparte na atrybutach obiektów, przestrzenne, lokalne, OTSU, oparte na histogramie, ...)
+-  zmiana kontrastu
+- zmiana jasności 
+- zmiana nasycenia kolorów
 
-- operacja matematyczna na pikselach, w której wyniku uzyskiwany jest przekształcony obraz
-- jest to przekształcenie kontekstowe
-- stosowane w celu wydobycia z oryginalnego obrazu informacji lub usunięcia szumów
-- 'przesuwanie okna'
-- można wykonać ją w dziedzinie:
-  - przestrzennej - operacja splotu
-  - częstotliwościowej - mnożenie transformat obrazu i filtru
-- problemy:
-  - z powodu kontekstowości nie może dotyczyć pikseli na brzegu obrazu
-- w praktyce
-  - usuwanie szumu w obrazie
-  - wzmocnienie elementów zgodnych ze wzorcem
-  - korekta wad obrazu, np. rys kliszy
-  - poprawa obrazu (wyostrzanie, poprawa 'poruszownych')
+###### Operacje kontekstowe
+
+- modyfikacja poszczególnych elementów obrazu w zależności od stanu ich samych i ich otoczenia
+- mogą zajmować dużo czasu
+- algorytmy są proste i regularne a ponadto mogą być wykonywane na wszystkich punktach obrazu jednocześnie
+- są one realizowane z wykorzystaniem splotu funkcji obrazu oraz maski, którą stanowi macierz współczynników
+- zalicza się operacje morfologiczne oraz filtrację.
+
+**Przykładowe operacje kontekstowe**
+
+- Filtracja
+  - operacja matematyczna na pikselach, w której wyniku uzyskiwany jest przekształcony obraz
+  - jest to przekształcenie kontekstowe
+  - stosowane w celu wydobycia z oryginalnego obrazu informacji lub usunięcia szumów
+  - 'przesuwanie okna'
+  - można wykonać ją w dziedzinie:
+    - przestrzennej - operacja splotu
+    - częstotliwościowej - mnożenie transformat obrazu i filtru
+  - problemy:
+    - z powodu kontekstowości nie może dotyczyć pikseli na brzegu obrazu
+  - w praktyce
+    - usuwanie szumu w obrazie
+    - wzmocnienie elementów zgodnych ze wzorcem
+    - korekta wad obrazu, np. rys kliszy
+    - poprawa obrazu (wyostrzanie, poprawa 'poruszownych')
 
 ---
 
@@ -126,18 +115,39 @@ Definiowane jako przekształcenia macierzy:
 
 
 
+- Operacje morfologiczne
+  - pozwalają przeprowadzić zaawansowaną analizę kształtów poszczególnych obiektów poszczególnych obiektów, oraz odległości między nimi
+  - podstawowe operacje morfologiczne można ze sobą łączyć, co daję podstawę do budowania skomplikowanych systemów analizy obrazu
+  - z uwagi na złożoność, zwykle przetwarzane na obrazach binarnych
+  - Przykłady:
+    - dylatacja - zwiększenie obiektu, zniknięcie detali i wypełnienie „dziur” w niespójnym obszarze
+    - erozja - zmniejszenie obiektu, zniknięcie wąskich gałęzi i małych obiektów, likwidacja szumu, rozszerzenie się „dziur” w niespójnym obszarze
+    - otwarcie - równoważne nałożeniu operacji dylatacji na wynik erozji obrazu pierwotnego
+    - domknięcie - równoważne nałożeniu operacji erozji na wynik dylatacji obrazu pierwotnego
+
+###### Operacje afiniczne
+
+- podstawowe przekształcenia geometryczne jakim może być poddany obraz.
+- każdy piksel składowy w macierzy obrazu, może być poddany transformacji polegającej na przeniesieniu jego wartości do piksela o odpowiednio wyliczonym położeniu.
+- Obliczenie to jest dokonywane poprzez mnożenie współrzędnych piksela przez macierz transformacji.
+- Przykłady:
+  - translacja
+  - skalowanie
+  - odbicie
+  - obrót
+  - pochylenie
+  - jednokładność
+  - dowolne złożenie powyższych
+
+---
+
+
+
 ###### Rozmycie Gaussa
 
 - wykres funkcji gęstości rozkładu normalnego - kapelusz Gaussa
 - zastosowanie w usuwanie szumów
 - liczy średnią ważoną z otoczenia danego piksela
-
-###### Binaryzacja / progowanie
-
-- metoda uzyskiwania obrazu binarnego, na podstawie kolorowego, lub w obszarach szarości
-- każdy piksel zapisany na 1 bicie
-- wyznaczeniu dla danego obrazu progu jasności, a następnie piksele jaśniejsze od wyznaczonego progu otrzymują jedną wartość (np. 0), a ciemniejsze drugą (np. 255)
-- zastosowanie: oddzielanie obiektów pierwszoplanowych od tła
 
 ### Techniki tworzenia aplikacji typu Single Page Application.
 
@@ -262,24 +272,86 @@ Definiowane jako przekształcenia macierzy:
 
 *źródło https://chmurowisko.pl/gan-ai-generujaca-rzeczywistosc/*
 
+https://developers.google.com/machine-learning/gan
+
 ###### GAN
 
 Generative Adversarial Network – generatywne sieci współzawodniczące
 
+Dyskryminator - sieć ucząca się wykrywać obrazy
+
+Generator - sieć ucząca się generować obrazy podobne do tych, ze zbioru uczącego
+
 **Działanie**
 
-- dyskryminator - sieć ucząca się wykrywać obrazy
-- generator - sieć ucząca się generować obrazy
-- generator próbuje przechytrzyć dyskryminatora, a dyskryminator, posiadając próbki prawdziwych i nieprawdziwych (generowanych) zdjęć, próbuje do tego nie dopuścić.
--  momencie gdy generator zacznie tworzyć tak realistyczne zdjęcia, że dyskryminator nie będzie w stanie odróżnić ich od prawdziwych, model generatywny zostanie w pełni wytrenowany. 
+- generator uczy się generować wiarygodne dane. Wygenerowane instancje stają się negatywnymi przykładami szkoleniowymi dla dyskryminatora.
+-  dyskryminator uczy się odróżniać fałszywe dane generatora od rzeczywistych. Dyskryminator karze generator za wytwarzanie nieprawdopodobnych wyników.
+-  generator i dyskryminator są sieciami neuronowymi. Wyjście generatora jest połączone z wejściem dyskryminatora
+-  przez algorytm propagacji wstecz, dyskryminator dostarcza sygnał do generatora, który pozwala zaktualizować wagi w sieci.
 
-**Zastosowania**
+Loss function === cost function
 
-- generacja twarzy
-- postarzanie twarzy
-- generowanie zdjęć z opisu słownego
-- przewidywanie wideo
-- generowanie obrazu
+**Dyskryminator**:
+
+- dowolna architektura sieci
+- źródła danych treningowych:
+  - prawdziwe dane, np. zdjęcia ludzi. Są to pozytywne przykłady
+  - fałszywe fane, otrzymywane z generatora. Są to negatywne przykłady
+- 2 funkcje straty:
+  - funkcja straty od generatora. Ignorowana podczas treningu dyskryminatora.
+  - funkcja straty generatora, używana podczas treningu dyskryminatora.
+- Trening:
+  - klasyfikacja danych prawdziwych treningowych i fałszywych, z generatora
+  - funkcja straty dyskryminatora każe dyskryminator za nieprawidłowe klasyfikacje
+  - dyskryminator aktualizuje wagi w sieci o gradient, obliczony w wyniku działania algorytmu propagacji wstecz
+
+**Generator**
+
+- Elementy niezbędne w architekturze generatora:
+  - losowe wejście (szum). Rozkład nie ma dużego wpływu
+  - sieć generatywna, generująca instancje danych z losowego wejścia
+  - sieć dyskryminatora, klasyfikująca dane wygenerowane przez generator
+  - wyjście dyskryminatora
+  - funkcje straty generatora, która karze generator, jeśli nie udało się oszukać dyskryminatora
+- Trening:
+  - wytwórz dane z losowego szumu
+  - otrzymaj odpowiedź: 'Prawdziwe' lub 'Fałszywe' z dyskryminatora
+  - uzyskaj gradienty przez propagacje wstecz, by otrzymać gradienty (???)
+  - użyj gradientów, aby zmienić wagi dyskryminatora
+
+**Trening GAN**
+
+1. Przez pewną ilość epok trenowany jest dyskryminator
+2. Przez pewną ilość epok trenowany jest generator
+3. powtarzane są krotki 1 i 2
+
+- podczas treningu dyskryminatora, generator się nie zmienia
+- podczas treningu generatora, dyskryminator sie nie zmienia
+- jeśli dyskryminator ma skuteczność 50%, generator działa perfektcyjnie
+- gdy generator generuje tak dobre dane, że odpowiedzi dyskryminatora są losowe, z czasem może doprowadzić to do pogorszenia jakości generatora
+
+**Funkcja kosztu**
+
+- minimax loss
+- Wasserstein loss
+
+**Rodzaje GAN**
+
+- progresywny
+  - tworzy obrazy nieskiej rozdzielczości, i dopiero z czasem dodaje szczegóły
+  - szybszy do wytrenowania
+- warunkowy
+  - pozwala określić co należy wygenerować, np. którą cyfrę z MNIST
+- Image-to-Image
+  - pozwala wygenerować np. fotorealistyczny obraz ze szkicu
+- CycleGan
+  - pozwala na nieznaczną konwersję zdjęcia, jak np. lewej ręki na prawą, konia w zebrę, etc
+- synteza tekstu w obraz
+- Super-Resolution
+  - pozwala polepszać jakość (rozdzielczość, szczegółowość) niewyraźnych obrazów
+- Face inpainting
+  - generacja pełnych twarzy z obrazów z zakrytymi obszarami
+- Text-to-Speech
 
 ### Standardy kompresji obrazów statycznych i sekwencji obrazów, różnice, zalety i wady.
 
@@ -359,7 +431,7 @@ Kompresja:
 - tylko kompresja bezstratna
 - wsparcie dla koloru 16bpp
 - stopniowe dekodowanie częściowo pobranych plików - pliki z przeplotem można szybko dekodować w niższej jakości / rozdzielczości („Responsive By Design”)
-- cobsługa animacji
+- obsługa animacji
 - złożony obliczeniowo, ale zapewnia bardzo wysokie współczynniki kompresji
 
 
@@ -839,11 +911,11 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
   - każdy problem z klasy NP da się sprowadzić w czasie wielomianowym do problemu $P_0$.
 - Klasa **Np-trudne**
   - każdy problem z klasy NP da się sprowadzić w czasie wielomianowym do problemu  $P_0$.
-- **PSPACE** - jest zbiorem wszystkich problemów decyzyjnych, które można rozwiązać za pomocą maszyny Turinga wykorzystującej wielomianową przestrzeń.
+- Klasa **PSPACE** - jest zbiorem wszystkich problemów decyzyjnych, które można rozwiązać za pomocą maszyny Turinga wykorzystującej wielomianową przestrzeń.
 
 ### Język UML w projektowaniu oprogramowania
 
-*https://lucc.pl/inf/egzamin_inzynierski/kierunkowe/%5BK%5D%5B6%5D%20Jezyk%20UML%20w%20projektowaniu%20oprogramowania/tekst/1.pdf*
+*https://lucc.pl/inf/egzamin_inzynierski/kierunkowe/%5BK%5D%5B6%5D%20Jezyk%20UML%20w%20projektowaniu%20oprogramowania/tekst/3.pdf*
 
 ###### UML 
 
@@ -863,24 +935,40 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
 
 ###### Diagramy
 
-- diagram pakietów
 - **diagram klas**:
   - przedstawia klasy i relacje między nimi
+  - pokazuje atrybuty i funkcje klas
   - prezentowane są atrybuty, operacje i powiązania 
-- diagram struktur złożonych
-- diagram komponentów
-- diagram wdrożenia
+  
 -  **diagram przypadków użycia**:
+  
   - technika wyznaczania funkcjonalnych wymagań systemu
   - opisywanie typowych interakcji między użytkownikami systemu a samym systemem
-  - przegląd możliwych działań w systemie
-- diagram czynności
+  - w terminologii przypadków użycia systemu użytkowników nazywa się aktorami
+  - możliwy jest aktor bezosobowy, jak np. zewnętrzny system
+  - **przypadek użycia** reprezentuje konkretną funkcjonalność, ale bez prezentowania jej szczegółów.
+  
+- **diagram sekwencji**:
+
+  - prezentuje jak współpracują ze sobą grupy obiektów
+  - pokazuje kilka przykładowych obiektów i komunikaty między nimi wymieniane z zachowaniem ich kolejności np:
+    - wywołanie procedury
+    - wywołanie asynchroniczne
+  - Każdy z obiektów przedstawiany jest za pomocą linii czasu. Na każdej linii czasu umieszczane są słupki aktywności reprezentujące chwile, w których użytkownik bierze udział w interakcji
+
+- **diagram aktywności**
+
+  - technika opisywania logiki działania systemu, procesów biznesowych i przepływów pracy
+  - diagram określa wówczas najważniejsze zasady dotyczące kolejności wykonywania czynności, których należy się trzymać
+  - przydatny przy modelowaniu sytuacji decyzyjnych, operacji czy algorytmów
+
 - **diagram maszyny stanowej**
-  - przedstawia zachowania systemu i jego zmiany
-  - stany obiektu połączone strzałkami
-  - obiekt reagując na zdarzenia zmienia stan, lub pozostaje w obecnym w zależności od spełnienia warunków
-- diagram interakcji (sekwencji, komunikacji, przeglądu interakcji)
-- diagram uwarunkowań czasowych
+  
+  - pokazuje możliwe stany obiektu oraz przejścia, które powodują zmianę tego stanu.
+  - Można z niego odczytać, jakie dane wejściowe powodują przejście systemu w dany stan
+  - składa się ze stanów, oraz reguł, wg których przełączane są stany
+  
+  
 
 ### Generowanie realistycznych obrazów scen 3-D za pomocą metody śledzenia promieni
 
@@ -894,10 +982,10 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
 
 ###### Działanie:
 
-- promień śledzony jest od oka obserwatora, zatem od końca, czyli od oka obserwatora
+- promień śledzony jest od oka obserwatora, zatem od końca
 - jeśli promień trafi w jakiś obiekt, można obliczyć kolor tego promienia, np. z metody Phonga
 - po odbiciu można śledzić 2 promienie - odbity i załamany
-- jeśli nie trafi w żaden ogień, jako kolor promienia przyjmowany jest kolor tła 
+- jeśli nie trafi w żaden obiekt, jako kolor promienia przyjmowany jest kolor tła 
 - śledzenie odbywa się zwykle w sposób rekurencyjny
 
 Końcowo można uzyskać efekt odbijania się przedmiotów w innych przedmiotach, albo efekt załamania światła na granicy ośrodków

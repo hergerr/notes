@@ -2,80 +2,88 @@
 
 *Źródło: moje doświadczenia*
 
-- Javascript to dynamiczny język programowania, który po dodaniu do dokumentu HTML, może dostarczyć dynamiczną zawartość do stron internetowych.
+- Javascript to skryptowy, dynamicznie typowany język programowania
 - Javascript działa po stronie klienta
 - Podstawowe zastosowanie to manipulacja DOM, czyli programowej reprezentacji zawartości witryny
 - W praktyce oznacza to dynamiczne zarządzanie wyglądem i treścią strony
   - Możliwe jest ustawienie odpowiedzi na różne wykryte zdarzenia (eventy) np. naciśnięcie przycisku, lub kliknięcie myszką
   - Możliwa jest wtedy zmiana stylu lub zawartości
+- Workery:
+  - możliwość wykonywania zadań, bez blokowania głównego wątku
+  - nie mają dostępu do obiektu window, ani documentu
+  - porozumiewają się z głównym wątkiem przez przesyłanie komunikatów
 - Możliwe wykonywanie jest wykonywanie zapytań HTTP do zewnętrznych API. Podstawowym narzędziem jest XMLHTTPRequest. Nowocześniejszym i wygodniejszym w użyciu narzędziem jest jednak Fetch API lub axios.
-- API canvas i webGL do animacji 2D i 3D
+- Oferuje localStorage i sessionStorage:
+  - magazyn dla całej domeny
+  - większy rozmiar niż Cookie
+  - nie jest wysyłane do serwera, jak Cookie
+- obsługuje API Canvas i webGL do animacji 2D i 3D
+- Typescript:
+  - nadzbiór JS, wprowadzający statyczne typy
+  - kompilowany do JS
+- frameworki służące do SPA
+- npm - menadźer pakietów
+
 - NodeJS - Javascript po stronie serwera
+  - bazuje na silniku Google - V8
+  - brak obiektu window
+  - możliwe używanie JS bez przeglądarki, dostępny jest także shell
 
 ### Podstawowe operacje i algorytmy przetwarzania obrazów. Morfologia matematyczna
 
 *Źródło: slajdy Wody: 96-146*
 
-###### Operacja bezkonstekstowe punktowe (bezkontekstowe):
+###### Operacja bezkonstekstowe:
 
 - są funkcją wartości pikseli i nie zależą od lokalizacji i sąsiedztwa (otoczenia, kontekstu) przekształcanego piksela
-- zmianie mogą ulec jedynie wartości (jasność) poszczególnych pikseli w obrazie
+- zmianie mogą ulec jedynie wartości poszczególnych pikseli w obrazie
 - najczęstszymi operacjami są operacje liniowe, potęgowe oraz logarytmiczne
-- wszystkie piksele o jednakowej intensywności są traktowane identycznie
 - służą jako metody poprawy jakości obrazu:
   - poprawa kontrastu lub jasności
   - uwypuklenie pewnych cech
-  - zmiana histogramu
   - zmiana kolorów
 
 **Przykładowe operacje bezkontekstowe**
-
-- Wyrównanie histogramu
-  - poprawienie kontrastu analizowanego obrazu z wykorzystaniem jego histogramu
-  - osiąga dobre wyniki, gdy obraz reprezentowany jest przez wartości z niewielkiego zakresu. Wartości zostaną rozciągnięte wtedy na szerszy zakres
 
 ---
 
 **Histogram** - wykres obrazujący, ile pikseli o każdej intenesywności jest w obrazie.
 
 - oś X pokazuje wszystkie moźliwe intensywności w obrazie
-- wysokość słupka proporcjonalna do liczby pikseli o intensywności x
+- wysokość słupka proporcjonalna do liczby pikseli o danej intensywności
 
 ----
 
 
 
+- Wyrównanie histogramu
+  - poprawienie kontrastu obrazu
+  - osiąga dobre wyniki, gdy obraz reprezentowany jest przez wartości z niewielkiego zakresu. Wartości zostaną rozciągnięte wtedy na szerszy zakres
+
 - Binaryzacja / progowanie
   - metoda uzyskiwania obrazu binarnego, na podstawie kolorowego, lub w obszarach szarości
+  - wyznaczenie dla danego obrazu progu jasności, na podstawie którego piksele jaśniejsze od wyznaczonego progu otrzymują jedną wartość, a ciemniejsze drugą
   - każdy piksel zapisany na 1 bicie
-  - wyznaczeniu dla danego obrazu progu jasności, a następnie piksele jaśniejsze od wyznaczonego progu otrzymują jedną wartość (np. 0), a ciemniejsze drugą (np. 255)
-  - zastosowanie: oddzielanie obiektów pierwszoplanowych od tła
-  - różne metody progowania (oparte na atrybutach obiektów, przestrzenne, lokalne, OTSU, oparte na histogramie, ...)
--  zmiana kontrastu
+  - zastosowanie: oddzielanie obiektów pierwszoplanowych od tła.
+  - różne metody (oparte na atrybutach obiektów, przestrzenne, lokalne, OTSU, oparte na histogramie, ...)
+- zmiana kontrastu
 - zmiana jasności 
 - zmiana nasycenia kolorów
 
 ###### Operacje kontekstowe
 
 - modyfikacja poszczególnych elementów obrazu w zależności od stanu ich samych i ich otoczenia
-- mogą zajmować dużo czasu
-- algorytmy są proste i regularne a ponadto mogą być wykonywane na wszystkich punktach obrazu jednocześnie
-- są one realizowane z wykorzystaniem splotu funkcji obrazu oraz maski, którą stanowi macierz współczynników
+- mogą być wykonywane na wszystkich punktach obrazu jednocześnie
 - zalicza się operacje morfologiczne oraz filtrację.
 
 **Przykładowe operacje kontekstowe**
 
 - Filtracja
-  - operacja matematyczna na pikselach, w której wyniku uzyskiwany jest przekształcony obraz
-  - jest to przekształcenie kontekstowe
+  - realizowane z wykorzystaniem funkcji splotu dla obrazu oraz maski, którą stanowi macierz współczynników
   - stosowane w celu wydobycia z oryginalnego obrazu informacji lub usunięcia szumów
-  - 'przesuwanie okna'
-  - można wykonać ją w dziedzinie:
-    - przestrzennej - operacja splotu
-    - częstotliwościowej - mnożenie transformat obrazu i filtru
   - problemy:
     - z powodu kontekstowości nie może dotyczyć pikseli na brzegu obrazu
-  - w praktyce
+  - zastosowania
     - usuwanie szumu w obrazie
     - wzmocnienie elementów zgodnych ze wzorcem
     - korekta wad obrazu, np. rys kliszy
@@ -98,18 +106,18 @@
 
 **filtry górnoprzepustowe**
 
-- "wyostzają"  obraz - uwypuklają krawędzie w obrazie
-- odpowiedzialne za 'wydobywanie' z obrazu składowych odpowiedzialnych za szybkie zmiany jasności:
+- "wyostrzają"  obraz - uwypuklają krawędzie w obrazie
+- są odpowiedzialne za 'wydobywanie' z obrazu składowych odpowiedzialnych za szybkie zmiany jasności:
   - konturów
   - krawędzi
   - drobnych elementów faktury
 - Przykłady:
-  - Krzyż Robertsa
-  - **operator Prewitta:**
+  - Krzyż Robertsa:
+    - charakter kierunkowy
+    - wykrywa proste pod kątem 45 stopni
+  - operator Prewitta:
     - detekcja linii pionowych, poziomych i ukośnych
     - wzmocnieniu ulegają linie zbliżone do horyzontalnych i wertykalnych
-  - operator Sobela
-  - Laplasjan
 
 ---
 
@@ -122,32 +130,25 @@
   - Przykłady:
     - dylatacja - zwiększenie obiektu, zniknięcie detali i wypełnienie „dziur” w niespójnym obszarze
     - erozja - zmniejszenie obiektu, zniknięcie wąskich gałęzi i małych obiektów, likwidacja szumu, rozszerzenie się „dziur” w niespójnym obszarze
-    - otwarcie - równoważne nałożeniu operacji dylatacji na wynik erozji obrazu pierwotnego
-    - domknięcie - równoważne nałożeniu operacji erozji na wynik dylatacji obrazu pierwotnego
+    - otwarcie - nałożenie operacji dylatacji na wynik erozji obrazu pierwotnego
+    - domknięcie - nałożenie operacji erozji na wynik dylatacji obrazu pierwotnego
 
 ###### Operacje afiniczne
 
-- podstawowe przekształcenia geometryczne jakim może być poddany obraz.
+- podstawowe przekształcenia geometryczne, jakim może być poddany obraz.
 - każdy piksel składowy w macierzy obrazu, może być poddany transformacji polegającej na przeniesieniu jego wartości do piksela o odpowiednio wyliczonym położeniu.
 - Obliczenie to jest dokonywane poprzez mnożenie współrzędnych piksela przez macierz transformacji.
 - Przykłady:
-  - translacja
+  - translacja (przesunięcie)
   - skalowanie
   - odbicie
   - obrót
   - pochylenie
-  - jednokładność
   - dowolne złożenie powyższych
 
 ---
 
 
-
-###### Rozmycie Gaussa
-
-- wykres funkcji gęstości rozkładu normalnego - kapelusz Gaussa
-- zastosowanie w usuwanie szumów
-- liczy średnią ważoną z otoczenia danego piksela
 
 ### Techniki tworzenia aplikacji typu Single Page Application.
 
@@ -155,9 +156,26 @@
 
 ###### Informacje ogólne
 
-- Single Page Application - strona internetowa, działająca po stronie klienta, która jest w stanie dynamicznie doładowywać treść
+- Single Page Application - kliencka aplikacja internetowa zawarta w jednym pliku html, która jest w stanie dynamicznie doładowywać treść w taki sposób, aby się nigdy nie przeładowywać.
+
+###### Zalety
+
 - SPA nie przeładowuje strony, przez co obsługa strony jest bardziej płynna, i sprawia wrażenie aplikacji natywnej
 - SPA potencjalnie może oszczędzać zasoby serwera, ze względu na pobieranie tylko potrzebnych danych, nie zaś dla całych podstron
+- możliwość ponownego wykorzystania kodu w wielu sytuacjach
+- możliwość korzystania łatwego z zewnętrznych bibliotek, dzięki npm i automatycznemu skonfigurowania środowiska
+- nowe możliwości ciekawej prezentacji treści
+
+###### Wady
+
+- rozwiązanie droższe, bardziej pracochłonne
+- problem z pozycjonowaniem
+- ciągłe zmiany zachodzące w ekosystemach frameworków SPA
+
+###### Kiedy użyć SPA
+
+- częsta nawigacja
+- podobny wygląda podstron
 
 ###### Cechy techniczne:
 
@@ -175,7 +193,7 @@
   - najpopularniejsze obecnie rozwiązanie
   - duża swoboda w wyborach architektonicznych
   - umożliwia także (wraz z React-Native) tworzenie aplikacji mobilnych
-  - można sskorzystać z Redux do zarządzania stanem
+  - można skorzystać z Redux do globalnego zarządzania stanem
 
   
 
@@ -188,21 +206,25 @@
 - kluczowe funkcjonalności to:
   -  silnik renderujący dla grafiki 2D/3D
     - najczęściej zbudowany na bazie API Direct3D, OpenGL lub Vulcan
-    - zapewnia warstwę abstrakcji nad GPU
+    - zapewnia warstwę abstrakcji nad GPU i CPU
     - zapewnia dostęp do systemu okien
     - zapewnia dostęp do urządzeń wejścia, jak mysz i klawiatura 
   - silnik fizyczny
     - symulacja praw fizyki (dynamika, bryła sztywna, płyny, itp)
     - detekcja kolizji
   - silnik audio
-    - odpowiedzilany za wczytanie, dekompresje i odtworzenie pliku z dźwiękiem
+    - odpowiedzialny za wczytanie, dekompresje i odtworzenie pliku z dźwiękiem
     - bardziej zaawansowane silniki, potrafią zreprodukować efekt Dopplera, echo, itp
-  - dźwięk,
   - sztuczna inteligencja
   - zarządzanie zasobami
   - często zawiera graficzny interfejs
 - silniki radykalnie przyśpieszają tworzenie gier komputerowych i redukują koszty
 - często możliwa jest także rozwijanie kodu na wiele platform, bez zmieniania kodu źródłowego
+- Przykłady:
+  - Unity
+  - RAGE
+  - Frostbite
+  - REDEngine
 
 ### Zastosowanie metod inteligentnego przetwarzania danych w rozpoznawaniu obrazów. 
 
@@ -219,7 +241,8 @@
 - Perceptron wielowarstwowy
   - Budowa
     - neuron - struktura przechowująca liczbę (aktywację)
-    - neurony tworzą warstwyneuron z warstwy n jest połączony z każdym z neuronów warstwy n+1
+    - neurony tworzą warstwy
+    - neuron z warstwy n jest połączony z każdym z neuronów warstwy n+1
     - połączenia między neuronami posiadają wagi
     - aktywacja każdego neuronu z n+1 warstwy liczona jest jako suma każdego z połączeń i aktywacji poprzedniego neuronu
     - aby aktywacja zawierała się w przedziale <0, 1>, stosuje się funkcję aktywacji, np. sigmoid
@@ -365,7 +388,7 @@ Kompresja:
 ###### GIF
 
 - 8 bitowe obrazy (256 kolorów)
-- obsługuje przeplot
+- obsługuje przeplot - zmieszanie 2 obrazów w jednym
 - wspiera prostą animację
 
 ###### PNG
@@ -379,28 +402,25 @@ Kompresja:
 
 ###### JPEG 2000
 
-- bazowany na dyskretnej transformacie falkowej
 - możliwe jest przechowywanie różnych części tego samego obrazu przy użyciu innej jakości
-  wsparcie dla HDR
+- wsparcie dla HDR
 - pełna obsługa przezroczystości i płaszczyzn alfa
 - Interaktywność z aplikacjami sieciowymi (JPEG Part 9 JPIP protocol)
 - duża odporność na błędy w zaszumionych kanałach transmisji
-- Transmisja progresywna (progressive transmission) - o otrzymaniu mniejszej części całego pliku, można zobaczyć wersję końcową obrazu o niższej jakości. Następnie jakość stopniowo się poprawia, pobierając więcej bitów danych ze źródła
+- Transmisja progresywna (progressive transmission) - po otrzymaniu mniejszej części całego pliku, można zobaczyć wersję końcową obrazu o niższej jakości. Następnie jakość stopniowo się poprawia, pobierając więcej bitów danych ze źródła
 
 ###### JPEG XR
 
 - wyższe współczynniki kompresji
-- kafelkowa (oddzielna kompresja obrazu)
+- kafelkowa (oddzielna kompresja obrazu) - dane można dekodować regionalnie
 - większa dokładność reprezentacji kolorów
 - przeźroczystość  - kanał alfa
 - obsługa metadanych (EXIF, XMP)
 
 ###### WebP
 
-- wykorzystuje kodowanie predykcyjne
 - może zawierać animacje
 - przeźroczystość (kanał alfa)
-- profil kolorów
 - obsługa metadanych - w formatach EXIF lub XMP
 - natywne wsparcie w przeglądarkach
 
@@ -412,7 +432,6 @@ Kompresja:
 - niskie zapotrzebowanie na pamięć
 - wsparcie dla koloru 14bpp (HDR)
 - może zawierać animację
-- profil kolorów - obraz może mieć osadzony profil ICC
 - obsługa metadanych
 - do dekodowania w przeglądarce potrzebuje biblioteki JS
 

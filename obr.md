@@ -130,8 +130,6 @@
   - Przykłady:
     - dylatacja - zwiększenie obiektu, zniknięcie detali i wypełnienie „dziur” w niespójnym obszarze
     - erozja - zmniejszenie obiektu, zniknięcie wąskich gałęzi i małych obiektów, likwidacja szumu, rozszerzenie się „dziur” w niespójnym obszarze
-    - otwarcie - nałożenie operacji dylatacji na wynik erozji obrazu pierwotnego
-    - domknięcie - nałożenie operacji erozji na wynik dylatacji obrazu pierwotnego
 
 ###### Operacje afiniczne
 
@@ -216,6 +214,7 @@
     - odpowiedzialny za wczytanie, dekompresje i odtworzenie pliku z dźwiękiem
     - bardziej zaawansowane silniki, potrafią zreprodukować efekt Dopplera, echo, itp
   - sztuczna inteligencja
+  - kod sieciowy
   - zarządzanie zasobami
   - często zawiera graficzny interfejs
 - silniki radykalnie przyśpieszają tworzenie gier komputerowych i redukują koszty
@@ -322,7 +321,7 @@ Loss function === cost function
   - fałszywe fane, otrzymywane z generatora. Są to negatywne przykłady
 - 2 funkcje straty:
   - funkcja straty od generatora. Ignorowana podczas treningu dyskryminatora.
-  - funkcja straty generatora, używana podczas treningu dyskryminatora.
+  - funkcja straty dyskryminatora, używana podczas treningu dyskryminatora.
 - Trening:
   - klasyfikacja danych prawdziwych treningowych i fałszywych, z generatora
   - funkcja straty dyskryminatora każe dyskryminator za nieprawidłowe klasyfikacje
@@ -339,8 +338,8 @@ Loss function === cost function
 - Trening:
   - wytwórz dane z losowego szumu
   - otrzymaj odpowiedź: 'Prawdziwe' lub 'Fałszywe' z dyskryminatora
-  - uzyskaj gradienty przez propagacje wstecz, by otrzymać gradienty (???)
-  - użyj gradientów, aby zmienić wagi dyskryminatora
+  - uzyskaj gradienty przez propagacje wstecz (???)
+  - użyj gradientów, aby zmienić wagi generatora
 
 **Trening GAN**
 
@@ -374,7 +373,6 @@ Loss function === cost function
   - pozwala polepszać jakość (rozdzielczość, szczegółowość) niewyraźnych obrazów
 - Face inpainting
   - generacja pełnych twarzy z obrazów z zakrytymi obszarami
-- Text-to-Speech
 
 ### Standardy kompresji obrazów statycznych i sekwencji obrazów, różnice, zalety i wady.
 
@@ -393,7 +391,7 @@ Kompresja:
 
 ###### PNG
 
-- obsługuję truecolor, skalę szarości, kolor
+- obsługuje truecolor(16M barw, 24b głębia kolorów), skalę szarości, kolor
 - posiada kanały alfa - zmienna przeźroczystość
 - korelacja gamma - wieloplatformowa kontrola jasności obrazu
 - dwuwymiarowy przeplot (metoda wyświetlania progresywnego)
@@ -402,16 +400,15 @@ Kompresja:
 
 ###### JPEG 2000
 
-- możliwe jest przechowywanie różnych części tego samego obrazu przy użyciu innej jakości
 - wsparcie dla HDR
 - pełna obsługa przezroczystości i płaszczyzn alfa
-- Interaktywność z aplikacjami sieciowymi (JPEG Part 9 JPIP protocol)
 - duża odporność na błędy w zaszumionych kanałach transmisji
 - Transmisja progresywna (progressive transmission) - po otrzymaniu mniejszej części całego pliku, można zobaczyć wersję końcową obrazu o niższej jakości. Następnie jakość stopniowo się poprawia, pobierając więcej bitów danych ze źródła
 
 ###### JPEG XR
 
 - wyższe współczynniki kompresji
+- możliwość kompresji bezstratnej
 - kafelkowa (oddzielna kompresja obrazu) - dane można dekodować regionalnie
 - większa dokładność reprezentacji kolorów
 - przeźroczystość  - kanał alfa
@@ -420,7 +417,10 @@ Kompresja:
 ###### WebP
 
 - może zawierać animacje
+- tryb stratny i bezstatny
 - przeźroczystość (kanał alfa)
+- w trybie stratnym: mniejszy rozmiar i porównywalna jakość do JPEG
+- w trybie bezstratnym: 26% mniejszy rozmiar od PNG
 - obsługa metadanych - w formatach EXIF lub XMP
 - natywne wsparcie w przeglądarkach
 
@@ -501,7 +501,7 @@ Kompresja:
 
 **WARP**
 
-- bloki wątków sterowane przez SM, grupowane w WARP'y (po 32 wątki działające synchronicznie)
+- bloki wątków sterowane przez SM, grupowane w WARP'y są 32 wątki działające synchronicznie
 - jeden lub wiele WARPów tworzą CUDA Thread block
 
 **Bloki CUDA**
@@ -536,8 +536,21 @@ Kompresja:
 
 ###### Przetwarzanie równoległe
 
-- procesy sekwencyjne - rozdzielone zasoby, ograniczona komunikacja (mechanizmy komunikacji międzyprocesowej)
-- procesy wielowątkowe - częściowo równoregłe wykonywanie, w wielu wątkach. Łatwa komunikacja między wątkami 
+- forma wykonywania obliczeń, w której wiele instrukcji jest wykonywanych jednocześnie
+- MIMD wg. taksonomii Flynna
+- dominujący wzorzec, ze względu na upowszechnienie procesorów wielordzeniowych
+- Występuje na poziomie:
+  - instrukcji
+  - zadania
+  - programów
+- może być prowadzone na:
+  - pojedyńczym procesorze wielordzeniowym
+  - systemie wieloprocesorowym
+  - na systemie składającym się z wielu maszyn
+- konieczne są również odpowiednie algorytmy nazywane równoległymi
+- algorytmy trudniejsze w implementacji ze względu na:
+  - obsługę komunikację
+  - konieczność synchronizacji niektórych zadań
 
 Dystrybucja procesów między procesorami:
 
@@ -545,19 +558,15 @@ Dystrybucja procesów między procesorami:
 
 ###### Przetwarzanie wielowątkowe
 
+- w ramach jednego procesu może być wykonywanych kilka zadań nazywanych wątkami.
+- wątki (zadania) w ramach tego samego procesu współdzielą tą samą wirtualną przestrzeń adresową zawierającą kod programu i jego dane.
+- wymaga synchronizacji dostępu do wspólnych zasobów
+
 **Warunki konieczne synchronizacji**
 
 - wzajemne wykluczanie - wątki są zależne od wyników innych wątków. Dopóki jeden nie skończy pewnej czynności, drugi nie może zacząć swojej czynności,
 - postęp - wymaga się, aby synchronizacja nie wykluczała wykonania operacji, gdy nie wynika to z pierwszego warunku,
 - ograniczone czekanie - każdy wątek w skończonym czasie musi uzyskać procesor, wątek nie może zostać wygłodzony
-
-Sekcja krytyczna:
-
-- może być w niej jeden proces na raz
-- rozwiązywana:
-  - semaforem (rozwiązanie softwarowe)
-  - instrukcją sprzętowa, atomowa TestAndSet
-  - instrukcją sprzętowa, atomowa Swap
 
 
 
@@ -613,6 +622,20 @@ Zalety:
 Wady:
 
 - zależne platformowo
+- wymagane poznanie nowej technologii
+
+###### Aplikacja Przeglądarkowa
+
+Zalety:
+
+- szybka w stworzeniu
+- technologie webowe
+
+Wady:
+
+- wolna
+- tylko online
+- brak komponentów natywnych
 
 ###### Rozwiązania hybrydowe
 
@@ -630,7 +653,7 @@ Zalety:
 - korzysta z HTML, JS i CSS
 - posiada dostęp do sprzętu
 - wieloplatformowość
-- Niezależność od sieci
+- niezależność od sieci
 
 Wady:
 
@@ -835,16 +858,16 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
 
 ###### Warstwy TCP/IP
 
-- warstwa aplikacji -
+- warstwa aplikacji
   - poziom, na którym pracują aplikacje użyteczne dla człowieka, np. serwer WWW lub przeglądarka internetowa
   -  Obejmuje zestaw protokołów, które aplikacje wykorzystują do przesyłania różnego typu danych w sieci
   - Wykorzystywane protokoły to m.in.: HTTP, FTP, etc
-  - Przykładowe porty: ftp: 20, http: 80, https: 443
-  - numer portu - 16b liczba całkowika. Zakres: 0-655535
 - warstwa transportowa:
   - pakuje dane w pakiety
   - odpowiada za tworzenie połączeń
   - na podstawie numeru portu, wybiera odpowiedni protokół
+  - przykładowe porty: ftp: 20, http: 80, https: 443
+  - numer portu - 16b liczba całkowika. Zakres: 0-655535
   - TCP:
     - *Transmission Control Protocol*
     - zestawia połączenie pomiędzy komunikującymi się stronami przez zainicjowanie tzw. sesji
@@ -909,7 +932,7 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
   - używamy w celu wyznaczenia **górnych granic asymptotycznych**, ponieważ ogranicza ona wzrost czasu wykonania dla dużych danych wejściowych.
 - Notacja dużego Omega
   - algorytm zajmuje *przynajmniej* pewną ilość czasu bez podawania górnej granicy
-  - używana do oznaczenia**asymptotycznej granicy dolnej** ponieważ ogranicza wzrost czasu wykonania od dołu dla odpowiedno dużych wartości podanych na wejściu.
+  - używana do oznaczenia **asymptotycznej granicy dolnej** ponieważ ogranicza wzrost czasu wykonania od dołu dla odpowiedno dużych wartości podanych na wejściu.
 - Staramy się określić złożoność jak najdokładniej
 
 ###### Klasy złożoności
@@ -921,7 +944,7 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
 - O($n^k$) - złożoność wielomianowa (k - stała)
 - O($k^n$), O(n!) - złożoność wykładnicza
 
-###### Problemy decyzyjne
+###### Klasa złożoności
 
 - Klasa **P** - wszystkie problemy, które można rozwiązać deterministycznym algorytmem o złożoności wielomianowej
 - Klasa **NP** - wszystkie problemy, które można rozwiązać niedeterministycznym algorytmem wielomianowym
@@ -950,11 +973,12 @@ https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
 - związki (relacje, generalizacje)
 - diagramy (klas, przypadku użycia, ...)
 
-
+(Dodać metamodel + ...)
 
 ###### Diagramy
 
 - **diagram klas**:
+  
   - przedstawia klasy i relacje między nimi
   - pokazuje atrybuty i funkcje klas
   - prezentowane są atrybuty, operacje i powiązania 
@@ -1038,6 +1062,8 @@ Końcowo można uzyskać efekt odbijania się przedmiotów w innych przedmiotach
 *źródło https://lucc.pl/inf/egzamin_inzynierski/kierunkowe/%5BK%5D%5B8%5D%20Mechanizmy%20systemu%20operacyjnego%20wspomagajace%20synchronizacje%20procesow/tekst/1.pdf*
 
 *https://www.ii.uni.wroc.pl/~wzychla/ra2223/so2.html*
+
+Definicja procesu i wątków
 
 **Synchronizacja procesów** to klasyczny problem z dziedziny informatyki ustalenia kolejności działania procesów ze sobą współpracujących. Problem pojawia się tam, gdzie występują współbierzne procesy. Celem jest ograniczenie dostępu do zasobu tak, aby dopuszczalne były przeploty zgodnie z wolą programisty
 

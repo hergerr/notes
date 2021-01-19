@@ -386,6 +386,7 @@ Kompresja:
 ###### GIF
 
 - 8 bitowe obrazy (256 kolorów)
+- bezstratny
 - obsługuje przeplot - zmieszanie 2 obrazów w jednym
 - wspiera prostą animację
 
@@ -394,9 +395,15 @@ Kompresja:
 - obsługuje truecolor(16M barw, 24b głębia kolorów), skalę szarości, kolor
 - posiada kanały alfa - zmienna przeźroczystość
 - korelacja gamma - wieloplatformowa kontrola jasności obrazu
-- dwuwymiarowy przeplot (metoda wyświetlania progresywnego)
 - lepsza kompresja w stosunku do GIF (5-25% lepsza)
 - nie wspiera animacji
+
+###### JPEG
+
+- bardzo popularny
+- obsługiwany przez większość aplikacji użytkowych
+- pozwala skompresować obraz nawet to 5% rozmiaru obrazu oryginalnego
+- brak kanału alfa
 
 ###### JPEG 2000
 
@@ -426,11 +433,10 @@ Kompresja:
 
 ###### BPG
 
-- produkuje mniejsze pliki przy tej samej jakości niż JPEG, JPEG XR i WebP
+- produkuje mniejsze pliki przy tej samej jakości niż JPEG XR i WebP
 - przeznaczony do zastosowania w IOT
 - zaprojektowany z myślą o przenośności
 - niskie zapotrzebowanie na pamięć
-- wsparcie dla koloru 14bpp (HDR)
 - może zawierać animację
 - obsługa metadanych
 - do dekodowania w przeglądarce potrzebuje biblioteki JS
@@ -448,8 +454,7 @@ Kompresja:
 
 - otwarty format
 - tylko kompresja bezstratna
-- wsparcie dla koloru 16bpp
-- stopniowe dekodowanie częściowo pobranych plików - pliki z przeplotem można szybko dekodować w niższej jakości / rozdzielczości („Responsive By Design”)
+- stopniowe dekodowanie częściowo pobranych plików - pliki z przeplotem można szybko dekodować w niższej jakości / rozdzielczości
 - obsługa animacji
 - złożony obliczeniowo, ale zapewnia bardzo wysokie współczynniki kompresji
 
@@ -467,12 +472,11 @@ Kompresja:
 
 - wykonuje właściwe obliczenia
 - ma własne: jednostki sterujące, rejestry, potoki wykonawcze, pamięci podręczne
-- wiele rdzeni (CUDA Cores) w SM (ilość zależna od architektury)
+- wiele rdzeni (CUDA Cores)
+- niewielki cache, niskie taktowanie zegara
 - współpraca wątków - tylko wewnątrz tego samego SM
-- zadanie równoległe wykonywane przez kilku bloków wątków (ang. block threads)
 - jednostki funkcji specjalnych (SFU) [cos / sin / tan]
-- jądra GPU (ang. cores) zorganizowane w grupy wewn. SM
-- brak predykcji rozgałęźień
+- brak predykcji rozgałęzień
 
 **Rdzeń CUDA**
 
@@ -522,17 +526,8 @@ Kompresja:
 - ROP (Render Output Unit) - pobiera informacje o pikselach i tekselach, przetwarza je, aby nadać pikselowi ostateczną teksturę i wartość głębi
 - rdzenie RT (Ray-tracing):
 - rdzenie Tensor (AI):
-  - operacje na macierzarz
+  - operacje na macierzach
   - Deep Learning Super Sampling
-
-**Wskaźniki wykorzystania GPU**
-
-- Occupancy:
-  - stosunek aktywnych CUDA WARPs do maks liczby CUDA WARPs , które każdy SM może wykonywać jednocześnie
-  - wysoki współczynnik occupancy - bardziej efektywnego wykorzystania GPU
-  - wysokie occupancy może też obniżyć wydajność w związku z powodu zwiększonej rywalizacji o zasoby między wątkami
-- Achieved occupancy:
-  - rzeczywista liczba współbieżnie wykorzystanych WARPs na procesorze strumieniowym. Można zmierzyć profilerem
 
 ###### Przetwarzanie równoległe
 
@@ -540,16 +535,16 @@ Kompresja:
 - MIMD wg. taksonomii Flynna
 - dominujący wzorzec, ze względu na upowszechnienie procesorów wielordzeniowych
 - Występuje na poziomie:
-  - instrukcji
-  - zadania
-  - programów
+  - instrukcji - w gesti projektantów procesorów
+  - zadania - sekwencja rozkazów tworzących zadania, wykonywana równoregle
+  - programów - wykonywanie niezależnych programów przez OS
 - może być prowadzone na:
   - pojedyńczym procesorze wielordzeniowym
   - systemie wieloprocesorowym
   - na systemie składającym się z wielu maszyn
 - konieczne są również odpowiednie algorytmy nazywane równoległymi
 - algorytmy trudniejsze w implementacji ze względu na:
-  - obsługę komunikację
+  - obsługę komunikacji
   - konieczność synchronizacji niektórych zadań
 
 Dystrybucja procesów między procesorami:
@@ -564,8 +559,8 @@ Dystrybucja procesów między procesorami:
 
 **Warunki konieczne synchronizacji**
 
-- wzajemne wykluczanie - wątki są zależne od wyników innych wątków. Dopóki jeden nie skończy pewnej czynności, drugi nie może zacząć swojej czynności,
-- postęp - wymaga się, aby synchronizacja nie wykluczała wykonania operacji, gdy nie wynika to z pierwszego warunku,
+- wzajemne wykluczanie - nie dopuszczanie do jednoczesnego korzystania ze wspólnego zasobu przez wiele wątków
+- postęp - wymaga się, aby synchronizacja nie wykluczała wykonania operacji, gdy nie wynika to z wzajemnego wykluczania,
 - ograniczone czekanie - każdy wątek w skończonym czasie musi uzyskać procesor, wątek nie może zostać wygłodzony
 
 
@@ -576,8 +571,8 @@ Dystrybucja procesów między procesorami:
 
 ###### Warunki konieczne, który musi spełniać algorytm
 
-- masowo równoległy - obliczenia można podzielić na setki lub tysiące niezależnych jednostek pracy. Najlepsza wydajność - wszystkie rdzenie GPU zajęte
-- intenesywny obliczeniowo - czas poświęcony na obliczenia, jest większy niż poświęcony na komunikację (przesyłanie danych z/i do pamięci GPU).
+- **masowo równoległy** - obliczenia można podzielić na setki lub tysiące niezależnych jednostek pracy. Najlepsza wydajność - wszystkie rdzenie GPU zajęte
+- **intenesywny obliczeniowo** - czas poświęcony na obliczenia, jest większy niż poświęcony na komunikację (przesyłanie danych z/i do pamięci GPU).
 
 ###### Cele akceleracji obliczeń na GPU:
 
@@ -592,6 +587,15 @@ Dystrybucja procesów między procesorami:
 - duża ilość prostych typów danych, na przykład tablic z dużą ilością danych
 
 Duża ilość złożonych typów danych, na przykład struktur wielopoziomowych, niewielka ilość danych do przetworzenie jest złym wskaźnikiem dobrego zrównoleglenia algorytmu
+
+###### Wskaźniki wykorzystania GPU
+
+- Occupancy:
+  - stosunek aktywnych CUDA WARPs do maks liczby CUDA WARPs , które każdy SM może wykonywać jednocześnie
+  - wysoki współczynnik occupancy - bardziej efektywnego wykorzystania GPU
+  - wysokie occupancy może też obniżyć wydajność w związku z powodu zwiększonej rywalizacji o zasoby między wątkami
+- Achieved occupancy:
+  - rzeczywista liczba współbieżnie wykorzystanych WARPs na procesorze strumieniowym. Można zmierzyć profilerem
 
 ###### Przykładowe operacje do zrównoreglenia
 
@@ -721,7 +725,6 @@ Wady:
 
 - paradygmaty - zbiór mechanizmów, jakich używa programista, wpływających na to, w jaki sposób wykonywany będzie program
 - programowanie obiektowe - podejście rozwiązywania problemów programistycznych z wykorzystaniem obiektów, czyli połączeniu danych i operacji, jakich można na nich wykonać.
-- obiekt to instancja klasy
 - zwolennicy OOP argumentują, że takie podejście dobrze odzwierciedla otaczający świat 
 
 ###### Podstawowe paradygmaty OOP
@@ -742,7 +745,7 @@ Wady:
 - U2 
   - najstarszy bit liczby n-cyfrowej ma wagę $-2^{n-1}$.
   - najstarszy bit = 1, to liczba jest ujemna,
-  - najstarszy bit =0, to liczba jest dodatnia lub równa 0.
+  - najstarszy bit = 0, to liczba jest dodatnia lub równa 0.
   - można zwiększyć obszar zajmowany przez liczbę, przez dodanie kolejnych bitów o wartości znaku
   - można wykryć overflow
 - kod spolaryzowany:
@@ -770,6 +773,7 @@ Wady:
 - wzór: $x=S*2^E*M$
 - istnieją kody specjalne:
   - nieskończoność, w przypadku nadmiaru
+  - NaN
 - Wykonywanie działań w arytmetyce zmiennoprzecinkowej wymaga specjalnej jednostki procesora albo programowej implementacji
 
 **Działania**
@@ -811,8 +815,7 @@ Relacja jest w pierwszej postaci normalnej, jeśli:
 - opisuje jeden obiekt
 - wartości atrybutów są elementarne (niepodzielne) -to nie żadna lista, macierz, czy coś co posiada własną strukturę
 - nie zawiera kolekcji, grup informacji (przykład - płeć-imiona)
-- jest zdefiniowany klucz relacji.
-- wszystkie atrybuty niekluczowe są w zależności funkcyjnej od klucza.
+- kolejność wierszy może być dowolna
 
 ###### Druga postać normalna 2NF
 

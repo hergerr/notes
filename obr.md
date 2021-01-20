@@ -845,7 +845,7 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
 
 - możliwość współdziałania ze sobą urządzeń sieciowych i oprogramowania różnych producentów
 - łatwiejsze określanie reguł i zasad komunikacji
-- możliwość łatwiejszego zrozumienie całego procesu komunikacji,
+- możliwość łatwiejszego zrozumienia całego procesu komunikacji,
 - możliwość zarządzania procesem komunikacji.
 
 ###### TCP/IP vs ISO/OSI
@@ -863,12 +863,12 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
 
 - warstwa aplikacji
   - poziom, na którym pracują aplikacje użyteczne dla człowieka, np. serwer WWW lub przeglądarka internetowa
-  -  Obejmuje zestaw protokołów, które aplikacje wykorzystują do przesyłania różnego typu danych w sieci
-  - Wykorzystywane protokoły to m.in.: HTTP, FTP, etc
+  -  obejmuje zestaw protokołów, które aplikacje wykorzystują do przesyłania różnego typu danych w sieci
+  - wykorzystywane protokoły to m.in.: HTTP, FTP, etc
 - warstwa transportowa:
   - pakuje dane w pakiety
   - odpowiada za tworzenie połączeń
-  - na podstawie numeru portu, wybiera odpowiedni protokół
+  - na podstawie numeru portu, wybiera odpowiedni protokół warstwy aplikacji
   - przykładowe porty: ftp: 20, http: 80, https: 443
   - numer portu - 16b liczba całkowika. Zakres: 0-655535
   - TCP:
@@ -876,8 +876,9 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
     - zestawia połączenie pomiędzy komunikującymi się stronami przez zainicjowanie tzw. sesji
     - jest protokołem niezawodnym
     - odbiorca potwierdza otrzymanie każdej wiadomości
+    - brakujące pakiety są retransmitowane
     - wiadomości dostarczane są w takiej samej kolejności, w jakiej zostały wysłane 
-    - zeroko wykorzystywane w protokołach i aplikacjach, które wymagają wysokiej niezawodności (HTTP(S), FTP, SMTP)
+    - szeroko wykorzystywane w protokołach i aplikacjach, które wymagają wysokiej niezawodności (HTTP(S), FTP, SMTP)
   - UDP
     -  *User Datagram Protocol* 
     - komunikacja odbywa się bez nawiązywania żadnego stałego połączenia
@@ -887,7 +888,7 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
     - nie gwarantuje, że wiadomości rzeczywiście dotarły do odbiorcy.
     - nie dostarcza pakietów w takiej samej kolejności, w jakiej zostały one wysłane.
     - ciężar uporządkowania otrzymywanych wiadomości i sprawdzenia czy nie nastąpiły błędy transmisji spoczywa na otrzymującej je aplikacji
-    - preferowane jeśli przesyłane pakiety danych są nieistotne lub komunikacja musi odbywać się z wyjątkowo dużą prędkością (DNS, DHCP, VOIP)
+    - preferowane, jeśli przesyłane pakiety danych są nieistotne lub komunikacja musi odbywać się z wyjątkowo dużą prędkością (DNS, DHCP, VOIP)
 - warstwa internetu
   - dodaje swój nagłówek do wiadomości otrzymywanych z warstwy transportowej
   - najważniejszymi polami nowego nagłówka są adresy IP nadawcy i obiorcy
@@ -905,7 +906,7 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
   - umożliwia przesłanie datagramów z warstwy internetowej, przez fizyczną sieć do drugiego komputera
   - protokoły TCP/IP wyższych warstw najczęściej są używane razem z zestawem protokołów ethernetowych
   - warstwy ethernetowe
-    - **Logic Link Control (LLC)** - przekazanie informacji do docelowej maszyny odnośnie tego jaki protokół powinien być użyty w warstwie transportowej
+    - **Logic Link Control (LLC)** - przekazuje informacje do docelowej maszyny odnośnie tego jaki protokół powinien być użyty w warstwie transportowej. Dopisuje informacje o protokole użytym w warstwie internetowej i o protokole, który powinien otrzymać wiadomość. Pozwala to warstwie LLC na docelowym komputerze poprawnie dostarczyć otrzymane datagramy.
     - **Media Access Control (MAC)** - zawiera adresy MAC nadawcy i odbiorcy, czyli fizyczne adresy dwóch komunikujących się maszyn, lub MAC routera, jeśli znajdują się w innej sieci
     - warstwa fizyczna
 
@@ -915,47 +916,46 @@ https://pl.khanacademy.org/computing/computer-science/algorithms/asymptotic-nota
 
 https://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad6/w6.htm
 
+https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
+
 ###### Definicje
 
-- Problem obliczeniowy - Jest to zbiór danych wejściwych, ich definicji oraz polecenie do wykonania.
+- Problem obliczeniowy - Jest to zbiór danych wejściowych, ich definicji oraz polecenie do wykonania.
   - problem sortowania liczb w tablicy
   - problem komiwojażera
   - problem plecakowy
 - Algorytm - To uporządkowany zbiór kroków jakie należy kolejno wykonać celem znalezienia rozwiązania rozpatrywanego problemu.
-- Problem rozstrzygalny – problem dla którego istnieje algorytm znajdujący rozwiązanie w skończonej liczbie kroków
-- Problem nierozstrzygalny – problem dla którego udowodniono że nie istnieje algorytm znajdujący rozwiązanie w skończonej liczbie kroków
-- Złożoność obliczeniowa - Miara efektywności algorytmu, czyli ilości zasobów potrzebnych do jego wykonania.
-- Złożoność czasowa – oszacowuje zależność czasu potrzebnego do wykonania algorytmu od rozmiaru instancji rozwiązywanego problemu.
-- Złożoność pamięciowa – oszacowuje ilość wymaganych zasobów pamięciowych do wykonania algorytmu w funkcji rozmiaru instancji problemu.
+- Problem **rozstrzygalny** – problem dla którego istnieje algorytm znajdujący rozwiązanie w skończonej liczbie kroków
+- Problem **nierozstrzygalny** – problem dla którego udowodniono że nie istnieje algorytm znajdujący rozwiązanie w skończonej liczbie kroków
+- Złożoność **obliczeniowa** - Miara efektywności algorytmu, czyli ilości zasobów potrzebnych do jego wykonania.
+- Złożoność **czasowa** – oszacowuje zależność czasu potrzebnego do wykonania algorytmu od rozmiaru instancji rozwiązywanego problemu.
+- Złożoność **pamięciowa** – oszacowuje ilość wymaganych zasobów pamięciowych do wykonania algorytmu w funkcji rozmiaru instancji problemu.
 - Notacja dużego Theta:
-  - Kiedy mówimy, że określony czas wykonania wynosi $\Theta(n)$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot n$ i co najwyżej  $k_2\cdot n$la niektórych stałych $k_1$ oraz $k_2$.
-  - Kiedy używamy notacji dużego Theta, mówimy że czas wykonania jest **mocno związany asymptotycznie**
+  - kiedy mówimy, że określony czas wykonania wynosi $\Theta(f(n))$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot f(n)$ i co najwyżej  $k_2\cdot f(n)$ dla stałych $k_1$ oraz $k_2$.
+  - kiedy używamy notacji dużego Theta, mówimy że czas wykonania jest **mocno związany asymptotycznie**
 - Notacja dużego O:
-  - jeśli czas wykonania jest ograniczony przez O(f(n)), to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot f(n)$ dla pewnej zmiennej k*k*k.
+  - jeśli czas wykonania jest ograniczony przez $O(f(n))$, to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot f(n)$ dla pewnej zmiennej *k*.
   - używamy w celu wyznaczenia **górnych granic asymptotycznych**, ponieważ ogranicza ona wzrost czasu wykonania dla dużych danych wejściowych.
 - Notacja dużego Omega
   - algorytm zajmuje *przynajmniej* pewną ilość czasu bez podawania górnej granicy
   - używana do oznaczenia **asymptotycznej granicy dolnej** ponieważ ogranicza wzrost czasu wykonania od dołu dla odpowiedno dużych wartości podanych na wejściu.
-- Staramy się określić złożoność jak najdokładniej
+- staramy się określić złożoność jak najdokładniej
 
-###### Klasy złożoności
+###### Rzędy złożoności obliczeniowej
 
-- O(1) - złożoność stała
-- O(log(n)) - złożoność logarytmiczna
-- O(n) - złożoność liniowa
-- O(nlog(n)) - złożoność liniowo - logarytmiczna
-- O($n^k$) - złożoność wielomianowa (k - stała)
-- O($k^n$), O(n!) - złożoność wykładnicza
+- $O(1)$ - złożoność stała
+- $O(log(n))$ - złożoność logarytmiczna
+- $O(n)$ - złożoność liniowa
+- $O(nlog(n))$ - złożoność liniowo - logarytmiczna
+- $O(n^k)$ - złożoność wielomianowa (k - stała)
+- $O(k^n)$ - złożoność wykładnicza
 
 ###### Klasa złożoności
 
-- Klasa **P** - wszystkie problemy, które można rozwiązać deterministycznym algorytmem o złożoności wielomianowej
-- Klasa **NP** - wszystkie problemy, które można rozwiązać niedeterministycznym algorytmem wielomianowym
-- Klasa **NP-zupełne** - Problem $P$ jest NP-Zupełny jeśli:
-  - $P_0$ należy do klasy NP,
-  - każdy problem z klasy NP da się sprowadzić w czasie wielomianowym do problemu $P_0$.
-- Klasa **Np-trudne**
-  - każdy problem z klasy NP da się sprowadzić w czasie wielomianowym do problemu  $P_0$.
+- Klasa **P** - problem decyzyjny, dla którego rozwiązanie można znaleźć w czasie wielomianowym.
+- Klasa **NP** - problem decyzyjny, dla którego rozwiązanie można zweryfikować w czasie wielomianowym. Równoważna definicja mówi, że problem jest w klasie NP, jeśli może być rozwiązany w wielomianowym czasie na niedeterministycznej maszynie Turinga.
+- Klasa **NP-zupełne** - należy do klasy NP oraz dowolny problem należący do NP może być do niego zredukowany w czasie wielomianowym.
+- Klasa **NP-trudne** - problem obliczeniowy, którego rozwiązanie jest co najmniej tak trudne, jak rozwiązanie każdego problemu z klasy NP
 - Klasa **PSPACE** - jest zbiorem wszystkich problemów decyzyjnych, które można rozwiązać za pomocą maszyny Turinga wykorzystującej wielomianową przestrzeń.
 
 ### Język UML w projektowaniu oprogramowania

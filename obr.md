@@ -931,10 +931,10 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
 - Złożoność **czasowa** – oszacowuje zależność czasu potrzebnego do wykonania algorytmu od rozmiaru instancji rozwiązywanego problemu.
 - Złożoność **pamięciowa** – oszacowuje ilość wymaganych zasobów pamięciowych do wykonania algorytmu w funkcji rozmiaru instancji problemu.
 - Notacja dużego Theta:
-  - kiedy mówimy, że określony czas wykonania wynosi $\Theta(f(n))$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot f(n)$ i co najwyżej  $k_2\cdot f(n)$ dla stałych $k_1$ oraz $k_2$.
+  - kiedy mówimy, że określony czas wykonania wynosi $\Theta(f(n))$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot g(n)$ i co najwyżej  $k_2\cdot g(n)$ dla stałych $k_1$ oraz $k_2$.
   - kiedy używamy notacji dużego Theta, mówimy że czas wykonania jest **mocno związany asymptotycznie**
 - Notacja dużego O:
-  - jeśli czas wykonania jest ograniczony przez $O(f(n))$, to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot f(n)$ dla pewnej zmiennej *k*.
+  - jeśli czas wykonania jest ograniczony przez $O(f(n))$, to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot g(n)$ dla pewnej zmiennej *k*.
   - używamy w celu wyznaczenia **górnych granic asymptotycznych**, ponieważ ogranicza ona wzrost czasu wykonania dla dużych danych wejściowych.
 - Notacja dużego Omega
   - algorytm zajmuje *przynajmniej* pewną ilość czasu bez podawania górnej granicy

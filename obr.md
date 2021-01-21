@@ -931,10 +931,10 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
 - Złożoność **czasowa** – oszacowuje zależność czasu potrzebnego do wykonania algorytmu od rozmiaru instancji rozwiązywanego problemu.
 - Złożoność **pamięciowa** – oszacowuje ilość wymaganych zasobów pamięciowych do wykonania algorytmu w funkcji rozmiaru instancji problemu.
 - Notacja dużego Theta:
-  - kiedy mówimy, że określony czas wykonania wynosi $\Theta(f(n))$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot g(n)$ i co najwyżej  $k_2\cdot g(n)$ dla stałych $k_1$ oraz $k_2$.
+  - kiedy mówimy, że określony czas wykonania wynosi $\Theta(g(n))$, mówimy, że kiedy n stanie się wystarczające duże, czas wykonania wynosi, co najmniej $k_1\cdot g(n)$ i co najwyżej  $k_2\cdot g(n)$ dla stałych $k_1$ oraz $k_2$.
   - kiedy używamy notacji dużego Theta, mówimy że czas wykonania jest **mocno związany asymptotycznie**
 - Notacja dużego O:
-  - jeśli czas wykonania jest ograniczony przez $O(f(n))$, to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot g(n)$ dla pewnej zmiennej *k*.
+  - jeśli czas wykonania jest ograniczony przez $O(g(n))$, to dla odpowiednio dużych n czas wykonania wynosi co najwyżej $k \cdot g(n)$ dla pewnej zmiennej *k*.
   - używamy w celu wyznaczenia **górnych granic asymptotycznych**, ponieważ ogranicza ona wzrost czasu wykonania dla dużych danych wejściowych.
 - Notacja dużego Omega
   - algorytm zajmuje *przynajmniej* pewną ilość czasu bez podawania górnej granicy
@@ -954,7 +954,7 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
 
 - Klasa **P** - problem decyzyjny, dla którego rozwiązanie można znaleźć w czasie wielomianowym.
 - Klasa **NP** - problem decyzyjny, dla którego rozwiązanie można zweryfikować w czasie wielomianowym. Równoważna definicja mówi, że problem jest w klasie NP, jeśli może być rozwiązany w wielomianowym czasie na niedeterministycznej maszynie Turinga.
-- Klasa **NP-zupełne** - należy do klasy NP oraz dowolny problem należący do NP może być do niego zredukowany w czasie wielomianowym.
+- Klasa **NP-zupełne** - problem należy do klasy NP oraz dowolny problem należący do NP może być do niego zredukowany w czasie wielomianowym.
 - Klasa **NP-trudne** - problem obliczeniowy, którego rozwiązanie jest co najmniej tak trudne, jak rozwiązanie każdego problemu z klasy NP
 - Klasa **PSPACE** - jest zbiorem wszystkich problemów decyzyjnych, które można rozwiązać za pomocą maszyny Turinga wykorzystującej wielomianową przestrzeń.
 
@@ -964,35 +964,38 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
 
 ###### UML 
 
-- formalny opis modelu reprezentującego projekt informatyczny
-
-- stosuje się do zdefiniowania systemu oprogramowania.
 - zestaw pojęć, oznaczeń i diagramów
+- formalny opis modelu reprezentującego projekt informatyczny
+- stosuje się do zdefiniowania systemu oprogramowania
 - pozwala jednoznacznie określić znaczenie graficznego obrazu modelu
+- pozwala na wygenerowanie kodu
 
-###### Składowe modelu
+###### Zalety
 
-- elementy modelu (klasy, interfejsy, przypadki użycia)
-- związki (relacje, generalizacje)
-- diagramy (klas, przypadku użycia, ...)
+- oszczędność czasu w fazie produkcji przez możliwość wcześniejszego dokładnego zaprojektowania
+- możliwość eliminacji błędów na etapie koncepcyjnym, co zmniejsza koszt projektu
+- jest w większośći zrozumiały dla programistów i osób nietechnicznych
 
-(Dodać metamodel + ...)
+###### Składowe UML
+
+- notacja - reprezentacja graficzna
+- metamodel - definicje pojęć i powiązań, dla nadania modelom ścisłości
 
 ###### Diagramy
 
-- **diagram klas**:
-  
-  - przedstawia klasy i relacje między nimi
-  - pokazuje atrybuty i funkcje klas
-  - prezentowane są atrybuty, operacje i powiązania 
-  
--  **diagram przypadków użycia**:
-  
+- **diagram przypadków użycia**:
+
   - technika wyznaczania funkcjonalnych wymagań systemu
   - opisywanie typowych interakcji między użytkownikami systemu a samym systemem
   - w terminologii przypadków użycia systemu użytkowników nazywa się aktorami
   - możliwy jest aktor bezosobowy, jak np. zewnętrzny system
   - **przypadek użycia** reprezentuje konkretną funkcjonalność, ale bez prezentowania jej szczegółów.
+
+- **diagram klas**:
+  
+  - przedstawia klasy i relacje między nimi
+  - pokazuje atrybuty i funkcje klas
+  - prezentowane są powiązania między klasami
   
 - **diagram sekwencji**:
 
@@ -1000,41 +1003,47 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
   - pokazuje kilka przykładowych obiektów i komunikaty między nimi wymieniane z zachowaniem ich kolejności np:
     - wywołanie procedury
     - wywołanie asynchroniczne
-  - Każdy z obiektów przedstawiany jest za pomocą linii czasu. Na każdej linii czasu umieszczane są słupki aktywności reprezentujące chwile, w których użytkownik bierze udział w interakcji
+  - może pokazywać tworzenie lub niszczenie obiektu
+  - mogą zawierać konstrukcje takie jak pętle, czy instrukcje warunkowe
 
 - **diagram aktywności**
 
   - technika opisywania logiki działania systemu, procesów biznesowych i przepływów pracy
-  - diagram określa wówczas najważniejsze zasady dotyczące kolejności wykonywania czynności, których należy się trzymać
+  - diagram określa najważniejsze zasady dotyczące kolejności wykonywania czynności
   - przydatny przy modelowaniu sytuacji decyzyjnych, operacji czy algorytmów
 
 - **diagram maszyny stanowej**
   
-  - pokazuje możliwe stany obiektu oraz przejścia, które powodują zmianę tego stanu.
-  - Można z niego odczytać, jakie dane wejściowe powodują przejście systemu w dany stan
+  - pokazuje możliwe stany obiektu oraz przejścia, które powodują zmianę tego stanu
+  - można z niego odczytać, jakie dane wejściowe powodują przejście systemu w dany stan
   - składa się ze stanów, oraz reguł, wg których przełączane są stany
   
   
 
 ### Generowanie realistycznych obrazów scen 3-D za pomocą metody śledzenia promieni
 
-*źródło https://lucc.pl/inf/egzamin_inzynierski/kierunkowe/%5BK%5D%5B7%5D%20Generowanie%20realistycznych%20obrazow%20scen%203D%20za%20pomoca%20metody%20sledzenia%20promieni/tekst/2.pdf*
+*źródło https://git.izernet.pl/MKjanek32/PWrEgzaminInz/src/branch/master/W4-INF-kierunkowe.md*
 
 ###### Metoda śledzenia promieni:
 
-- symulacja zachowania światła w realnym świecie.
-- promień może się odbijać i zmieniać kierunek.
-- obiekty są wykonane z różnych materiałów; mogą pochłaniać i odbijać różne barwy składowe światła
+- służy do generowania fotorealistycznych scen 3D z odwzorowaniem efektów oświetlenia (cienie, odbicia światła od obiektów)
+- analizowane są tylko promienie docierające do obserwatora, w kierunku odwrotnym do padania światła – od pozycji obserwatora, przecinając rzutnię (ekran), wgłąb sceny. 
+- powyższe działanie zaoszczędza zasoby systemu, gdyż nie liczy promieni, które nie trafiłyby w ekran
 
 ###### Działanie:
 
-- promień śledzony jest od oka obserwatora, zatem od końca
-- jeśli promień trafi w jakiś obiekt, można obliczyć kolor tego promienia, np. z metody Phonga
-- po odbiciu można śledzić 2 promienie - odbity i załamany
-- jeśli nie trafi w żaden obiekt, jako kolor promienia przyjmowany jest kolor tła 
-- śledzenie odbywa się zwykle w sposób rekurencyjny
+1. Dla każdego piksela na ekranie z punktu, w którym znajduje się obserwator, wyprowadzany jest promień pierwotny, który przecina ten piksel.
 
-Końcowo można uzyskać efekt odbijania się przedmiotów w innych przedmiotach, albo efekt załamania światła na granicy ośrodków
+2. Jeżeli:
+
+- promień nie trafi na żaden obiekt na scenie – piksel przyjmuje kolor tła,
+- promień trafi w źródło światła – piksel przyjmuje kolor źródła,
+- promień trafi w obiekt – wyznaczany jest najbliższy punkt przecięcia z obiektem i dla niego:
+  - obliczany jest kolor za pomocą jednego z modeli oświetlenia lokalnego (np. modelu Phonga),
+  - ewentualne zacienienie (poprzez poprowadzenie pomocniczych promieni do źródeł światła i przeanalizowanie, czy przecinają inne obiekty),
+  - kierunek odbicia promienia wtórnego, który następnie jest śledzony rekruncyjnie w taki sam sposób (jeżeli trafi w kolejny obiekt – jego oświetlenie lokalne jest mnożone przez współczynnik odbicia i dodawane do lokalnego oświetlenia poprzedniego obiektu).
+
+3. Krok 2 jest powtarzany dopóki promień wtórny nie trafi w tło albo w źródło światła, lub dopóki nie zostanie osiągnięta określona głębokość rekurencji.
 
 ###### Charakterystyka
 
@@ -1043,20 +1052,11 @@ Końcowo można uzyskać efekt odbijania się przedmiotów w innych przedmiotach
 
 ###### Model oświetlenia Phonga
 
-- pozwala obliczyć kolor wybranego obiektu na powierzchni trójwymiarowego obiektu
-- zakłada istnienie 3 składowych światła:
-  - składowej ambientowej 
-    - światło otoczenia
-    - stałe natężenie, niezależne od obserwatora, obiektu, ani źródła światła
-  - rozproszonej
-    - determinuje podstawowy kolor obiektu
-    - model światła rozproszonego - model Lamberta
-    - natężenie światła rozproszonego jest wprost proporcjonalne do cosinsusa kąta między wektorem normalnym, a promieniem pochodzącym od źródła światła
-  - odbitej
-    - odpowiada za efekt połysku
-    - cosinus kąte między promieniem pochodzącym od obserwatora, a odbitym od powierzchni od powierzchni promieniem światła do potęgi n. n może wynosić od kilkudziesięciu do kilkuset
-    - n - stała charakterystyczna dla materiału. Im większe n tym mniejsza średnica połysku
-- zsumowanie składowych daje kolor wynikowy
+**Model Phonga** pozwala wyliczyć oświetlenie lokalne jako sumę trzech rodzajów światła:
+
+- **światło otaczające (ang. ambient)** – bezkierunkowe światło, równomiernie oświetlające obiekty ze wszystkich stron – w naturze ten rodzaj światła dominuje w środku dnia podczas pochmurnej pogody,
+- **światło rozproszone (ang. diffuse)** – światło padające z określonego kierunku i rozpraszane przez obiekty, dając ich równomierne oświetlenie z jednej strony,
+- **światło odbite (ang. specular)** – światło padające z określonego kierunku i silnie odbijane przez obiekty, dając efekt połysku ich powierzchni.
 
 
 
@@ -1066,9 +1066,28 @@ Końcowo można uzyskać efekt odbijania się przedmiotów w innych przedmiotach
 
 *https://www.ii.uni.wroc.pl/~wzychla/ra2223/so2.html*
 
-Definicja procesu i wątków
+https://pl.wikipedia.org/wiki/W%C4%85tek_(informatyka)
+
+https://en.wikipedia.org/wiki/Semaphore_(programming)
+
+###### Wątki a procesy
+
+Różnica między zwykłym procesem a wątkiem polega na współdzieleniu przez wszystkie wątki działające w danym procesie przestrzeni adresowej oraz wszystkich innych struktur systemowych (np. listy otwartych plików, gniazd itp.) – z kolei procesy posiadają niezależne zasoby. Ta cecha ma dwie ważne konsekwencje:
+
+- Wątki wymagają mniej zasobów do działania i też mniejszy jest czas ich tworzenia. 
+- Dzięki współdzieleniu przestrzeni adresowej (pamięci) wątki jednego zadania mogą się między sobą komunikować w bardzo łatwy sposób, niewymagający pomocy ze strony systemu operacyjnego.
+
+Jeśli biblioteka pthreads implementuje opcję **TSH** (Thread Process-Shared Synchronization), wówczas możliwa staje się synchronizacja między wątkami różnych procesów.
+
+###### Synchronizacja
 
 **Synchronizacja procesów** to klasyczny problem z dziedziny informatyki ustalenia kolejności działania procesów ze sobą współpracujących. Problem pojawia się tam, gdzie występują współbierzne procesy. Celem jest ograniczenie dostępu do zasobu tak, aby dopuszczalne były przeploty zgodnie z wolą programisty
+
+**Kiedy pojawia się problem synchronizacji**
+
+- procesy współdzielą strukturę danych - sekcja krytyczna
+- wyniki działania jednego procesu, są potrzebne do działania innego procesu - producent-konsument
+- procesy mogą korzystać z pewnej puli zasobów - Filozofowie
 
 **Klasyczne problemy synchronizacji**
 
@@ -1077,11 +1096,17 @@ Definicja procesu i wątków
 - problem czytelników i pisarzy
 - problem sekcji krytycznej
 
-**Programowe mechanizmy synchronizacji**
+###### Mechanizmy synchronizacji
 
 - semafory - procesy z nich korzystające mogą blokować wejście do określonych części kodu
-- muteksy - mutex może być uwolniony tylko przez wątek, który jest jego właścicielem, licznik semafora może być zwiększony przez dowolny wątek, który z tego semafora korzysta.
-- zmienne warunkowe - narzędziem do blokowania wątku wewnątrz sekcji krytycznej aż do momentu gdy pewien warunek zostanie spełniony
+  - binarny
+    - może przyjmować wartości całkowite ze zbioru {0, 1}
+    - operacja P (wait) - oczekiwanie, dopóki zasób chroniony przez semafor stanie się dostępny, a następnie jest zajmowany. 
+    - operacja V (signal) - zwalnianie zasobu
+  - zliczający
+    - może przyjmować wartości całkowite ze zbioru {0, inf}
+- muteksy - mutex może być uwolniony tylko przez **wątek**, który jest jego właścicielem, licznik semafora może być zwiększony przez dowolny wątek, który z tego semafora korzysta. Rodzaj semafora binarnego
+- zmienne warunkowe - narzędziem do blokowania **wątku** wewnątrz sekcji krytycznej aż do momentu gdy pewien warunek zostanie spełniony
 
 
 

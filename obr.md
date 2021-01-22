@@ -382,6 +382,7 @@ Kompresja:
 
 - stratna - kompresuje (usuwa 'nadmiar' danych) przez przybliżenie oryginalnych danych
 - bezstratna - dekompresuje obraz, przez odtworzenie oryginalnych danych
+- ściśle powiązana z formatem pliku - np. ilość kompresowanych kanałów
 
 ###### GIF
 
@@ -392,7 +393,7 @@ Kompresja:
 
 ###### PNG
 
-- obsługuje truecolor(16M barw, 24b głębia kolorów), skalę szarości, kolor
+- obsługuje truecolor(16M barw, 24b głębia kolorów)
 - posiada kanały alfa - zmienna przeźroczystość
 - korelacja gamma - wieloplatformowa kontrola jasności obrazu
 - lepsza kompresja w stosunku do GIF (5-25% lepsza)
@@ -410,11 +411,11 @@ Kompresja:
 - wsparcie dla HDR
 - pełna obsługa przezroczystości i płaszczyzn alfa
 - duża odporność na błędy w zaszumionych kanałach transmisji
-- Transmisja progresywna (progressive transmission) - po otrzymaniu mniejszej części całego pliku, można zobaczyć wersję końcową obrazu o niższej jakości. Następnie jakość stopniowo się poprawia, pobierając więcej bitów danych ze źródła
+- transmisja progresywna (progressive transmission) - po otrzymaniu mniejszej części całego pliku, można zobaczyć wersję końcową obrazu o niższej jakości. Następnie jakość stopniowo się poprawia, pobierając więcej bitów danych ze źródła
 
 ###### JPEG XR
 
-- wyższe współczynniki kompresji
+- wyższe współczynniki kompresji od JPEG
 - możliwość kompresji bezstratnej
 - kafelkowa (oddzielna kompresja obrazu) - dane można dekodować regionalnie
 - większa dokładność reprezentacji kolorów
@@ -424,8 +425,8 @@ Kompresja:
 ###### WebP
 
 - może zawierać animacje
-- tryb stratny i bezstatny
 - przeźroczystość (kanał alfa)
+- tryb stratny i bezstatny
 - w trybie stratnym: mniejszy rozmiar i porównywalna jakość do JPEG
 - w trybie bezstratnym: 26% mniejszy rozmiar od PNG
 - obsługa metadanych - w formatach EXIF lub XMP
@@ -433,6 +434,7 @@ Kompresja:
 
 ###### BPG
 
+- zarówno stratny jak i bezstratny
 - produkuje mniejsze pliki przy tej samej jakości niż JPEG XR i WebP
 - przeznaczony do zastosowania w IOT
 - zaprojektowany z myślą o przenośności
@@ -453,7 +455,7 @@ Kompresja:
 ###### FLIFF
 
 - otwarty format
-- tylko kompresja bezstratna
+- tylko kompresja bezstratna, nieco lepsza od webP lossless
 - stopniowe dekodowanie częściowo pobranych plików - pliki z przeplotem można szybko dekodować w niższej jakości / rozdzielczości
 - obsługa animacji
 - złożony obliczeniowo, ale zapewnia bardzo wysokie współczynniki kompresji

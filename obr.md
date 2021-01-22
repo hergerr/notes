@@ -602,6 +602,8 @@ Duża ilość złożonych typów danych, na przykład struktur wielopoziomowych,
 - obliczanie całek metodą Monte Carlo
 - obliczanie wyznaczników macierzy
 
+Prawo Amdahla -  używane w przypadku prowadzenia obliczeń równoległych do przewidzenia teoretycznego maksymalnego wzrostu szybkości obliczeń przy użyciu wielu procesorów.
+
 
 
 ### Tworzenie aplikacji w systemie Android
@@ -1114,40 +1116,48 @@ Jeśli biblioteka pthreads implementuje opcję **TSH** (Thread Process-Shared Sy
 
 *źródło https://lucc.pl/inf/egzamin_inzynierski/kierunkowe/%5BK%5D%5B9%5D%20Programowalne%20scalone%20uklady%20cyfrowe%20PLD%2C%20CPLD%2C%20oraz%20FPGA/tekst/1.pdf*
 
+https://git.izernet.pl/MKjanek32/PWrEgzaminInz/src/branch/master/W4-INF-kierunkowe.md
+
 Programowalne układy cyfrowe to :
 
 - układy scalone, których właściwości funkcjonalne są definiowane nie przez producenta, lecz przez końcowego użytkownika
-- najważniejszą cechą tych układów jest możliwość nadawania im (w procesie analogicznym do programowania komputerów) określonych przez użytkownika cech funkcjonalnych, w jego laboratorium, a nie w fabryce.
 - są przydatne gdy nie istnieje układ realizujący takie zadanie
 - w stosunku do układów nieprogramowalnych są wolniejsze i mają większy pobór mocy
-- realizują funkcje logiczne
-- programowane za pomocą VHDL lub Veriloga 
+- realizują funkcje logiczne w sposób równoległy
+- języki: VHDL i Verilog
+- narzędzia syntezy tworzone przez producentów układów są w stanie przetłumaczyć VHDL na konfigurację konkretnego układu FPGA lub CPLD.
+- stosuje się często do sterowania urządzeniami i szybkiego przetwarzania dużych ilości danych – na przykład w kryptografii, w urządzeniach sieciowych (przełączniki), czy też przy cyfrowym przetwarzaniu sygnałów.
 
-Programowalne układy scalone są komponentami przeznaczonymi do budowy rekonfigurowalnych układów cyfrowych. PLD (*Programmable Logic Device*) jest rodziną programowalnych układów cyfrowych:
+###### Kategorie urządzeń
 
-- SPLD (Simple PLD) - pozwalają na tworzenie nieskomplikowanych układów. 
+- PLD (*Programmable Logic Device*)
 
-  - ich budowa obiera się o matryce funkcji AND oraz OR
-  - realizują funkcje w postaci (x1 AND x2 AND x3 …) OR (x1 AND x2 AND x3 …)… lub (x1 OR x2 OR x3 …) AND (x1 OR x2 OR x3…)…
-  - dostępne jest kilka przerzutników - zwykle tyle ile wejść/wyjść do układu
+  - najstarszy i najprostszy
+  - składają się one z 2 matryc bramek logicznych AND-OR i występują w trzech odmianach:
+    - **PAL** – z programowalną matrycą AND (najpowszechniejsze)
+    - **PLE** - z programowalną matrycą OR
+    - **PLA** - z programowalnymi obydwoma matrycami
+  - składają się z małej liczby bramek logicznych (typowo posiadają 8-10 wejść i wyjść oraz kilkadziesiąt bramek)
 
 - CPLD (Complex PLD)
 
-  - większe zasoby i możliwości funkcjonalne
-  - budowa hierarchiczna w oparciu o mikrokomórki, które są połączone w <u>bloki funkcyjne</u>
-  - pojedyńcza makrokomórka realizuje prostą funkcję logiczną
-  - połączone makrokomórki mogą realizować funkcje z większą liczbą zmiennych
-  - pomiędzy blokami funkcyjnymi może zachodzić wymiana informacji
-
+  - wiele układów PLD połączonych szybką globalną matrycą połączeń
+  - mogą posiadać już kilka tysięcy bramek logicznych.
+  - w układach PLD i CPLD jako pamięć konfiguracji wykorzystuje najczęściej EEPROM (elektrycznie programowalną i kasowalną).
+  
 - FPGA (Field Programmable Gate Array):
 
-  - brak matryc funkcyjnych
-  - wyniki funkcji przechowuje się w tzw. LUT (Look Up Table)
-  - składa się z bloków funkcyjnych (CLB)
-  - CLB:
-    - zawiera kilka LUT, które mogą być łączone w większe funkcje lub pełnić funkcje pamięci rozproszonej
-    - zawiera kilka przerzutników
-  - programowalne są połączenia między blokami funkcyjnymi
+  - to najbardziej skomplikowany rodzaj układów programowalnych o największych możliwościach
+
+  - pojemności dochodzą do kilkuset tysięcy bramek logicznych
+
+  -  tzw. LUT (Look Up Table) tablicuje tabele prawdy funkcji
+
+  - składają się z wielu połączonych globalną matrycą bloków CLB (*Configurable Logic Block*), zawierających LUT, przerzutniki i multipleksery.
+
+  - jako pamięć konfiguracji wykorzystywana jest pamięć statyczna RAM (SRAM) – ponieważ jest to pamięć ulotna, często do układów FPGA dołącza się oddzielne układy pamięci EEPROM, z których FPGA po podłączeniu zasilania automatycznie może odczytać konfigurację połączeń
+
+    
 
   
 
@@ -1157,32 +1167,29 @@ Programowalne układy scalone są komponentami przeznaczonymi do budowy rekonfig
 
 ###### Płyty:
 
-- CD - *Compact Disc* - 700MB
+- CD - *Compact Disc* - 700MB - podczerwień
 - DVD - *Digital Video Disc* - od 4.7 do 17GB (dwustronne dwuwarstwowe) 
   - osiągnięte przez krótszą falę lasera. 
   - Musi zawierać system plików - UDF
-- Blue Ray Disc - 25 - 400GB (szesnastowarstwowe) 
+  - światło czerwone
+- Blue Ray Disc - 25 - 400GB (szesnastowarstwowe) - światło niebieskie
 
 ###### CD - działanie
 
 - Stany logiczne repreentowane przez wgłębienia (pity) i przerwy między wgłębieniami (landy)
-- natrafienie na land - rozproszenie, nie powraca do czujnika
-- pit - odbicie - powrót do czujnika
+- natrafienie na land - odbicie,  powrót do czujnika
+- pit -  rozproszenie, nie powraca do czujnika
+
+Przy użyciu odpowiednich algorytmów stopień odbicia lub rozproszenia tej wiązki konwertowany jest na ciąg jedynek i zer, a ten z kolei pozwala na odtworzenie danych, które wcześniej zostały tam zapisane
 
 ###### Rodzaje CD/DVD
 
 - CD powstające na skutek odciśnięcia matryce
-- CD-R - możliwy zapis danych
+- CD-R - możliwy jednokrotny zapis danych
 - CD-RW - podobne do CD-R, jednak umożliwiające wielokrotny zapis danych
 - +R 
   - muszą być sformatowane przed rozpoczęciem nagrywania czego nie wymaga format –R.
   - zastosowanie systemu kontroli prędkości i zapisu ADIP, który jest mniej podatny na zakłócenia i błędy,
-
-###### Obszary płyty kompaktowej:
-
-- Lead In Aread - spis treści, czyli dane o położeniu i trwaniu każdej ścieżki na dysku
-- Program Area - ramki, na które podzielona jest każda ścieżka. Ramka zawiera dane audio, bity parzystości, słowo synchronizujące i bajt kontrolny
-- Lead Out Area - strefa ciszy. Pełni rolę bufora na wypadek pominięcia przez odtwarzacz ostatniej ścieżki na płycie
 
 ###### Inne:
 
@@ -1199,4 +1206,4 @@ Programowalne układy scalone są komponentami przeznaczonymi do budowy rekonfig
 - HVD - Holographic Versatile Disc:
   - do 6TB
   - zapis w przestrzeni trójwymiarowej dysku
-  - wykorzystuje lasery zielony i czerwony
+  - wykorzystuje lasery: zielony i czerwony

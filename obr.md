@@ -909,10 +909,10 @@ http://www.crypto-it.net/pl/teoria/protokoly-tcp-ip.html
 - warstwa dostępu do sieci 
   - umożliwia przesłanie datagramów z warstwy internetowej, przez fizyczną sieć do drugiego komputera
   - protokoły TCP/IP wyższych warstw najczęściej są używane razem z zestawem protokołów ethernetowych
-  - warstwy ethernetowe
+  - warstwy ethernetowe:
     - **Logic Link Control (LLC)** - przekazuje informacje do docelowej maszyny odnośnie tego jaki protokół powinien być użyty w warstwie transportowej. Dopisuje informacje o protokole użytym w warstwie internetowej i o protokole, który powinien otrzymać wiadomość. Pozwala to warstwie LLC na docelowym komputerze poprawnie dostarczyć otrzymane datagramy.
-    - **Media Access Control (MAC)** - zawiera adresy MAC nadawcy i odbiorcy, czyli fizyczne adresy dwóch komunikujących się maszyn, lub MAC routera, jeśli znajdują się w innej sieci
-    - warstwa fizyczna
+    - **Media Access Control (MAC)** - Odpowiedzialna za tworzenie końcowej wiadomości ethernetowej (*Ethernet frame*), która będzie wysłana przez sieć komputerową. Zawiera adresy MAC nadawcy i odbiorcy, czyli fizyczne adresy dwóch komunikujących się maszyn, lub MAC routera, jeśli znajdują się w innej sieci
+    - warstwa fizyczna - odpowiedzialna za przekształcanie wiadomości w (zależności od typu sieci) impulsy elektryczne lub fale elektromagnetyczne oraz za transmitowanie ich przez sieć fizyczna pomiędzy komunikującymi się maszynami.
 
 ### Ocena złożoności algorytmów
 
@@ -1051,7 +1051,7 @@ https://pl.wikipedia.org/wiki/Problem_NP-zupe%C5%82ny
 
 ###### Charakterystyka
 
-- wysoki koszt obliczneniowy (należy przeprowadzić procudure RT dla każdego piksela)
+- wysoki koszt obliczneniowy (należy przeprowadzić procedurę RT dla każdego piksela)
 - możliwe równoregłe obliczenia dla każdego promienia lub piksela
 
 ###### Model oświetlenia Phonga

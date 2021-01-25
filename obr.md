@@ -59,13 +59,23 @@
 - Wyrównanie histogramu
   - poprawienie kontrastu obrazu
   - osiąga dobre wyniki, gdy obraz reprezentowany jest przez wartości z niewielkiego zakresu. Wartości zostaną rozciągnięte wtedy na szerszy zakres
-
 - Binaryzacja / progowanie
   - metoda uzyskiwania obrazu binarnego, na podstawie kolorowego, lub w obszarach szarości
   - wyznaczenie dla danego obrazu progu jasności, na podstawie którego piksele jaśniejsze od wyznaczonego progu otrzymują jedną wartość, a ciemniejsze drugą
   - każdy piksel zapisany na 1 bicie
   - zastosowanie: oddzielanie obiektów pierwszoplanowych od tła.
   - różne metody (oparte na atrybutach obiektów, przestrzenne, lokalne, OTSU, oparte na histogramie, ...)
+- Operacje afiniczne
+  - podstawowe przekształcenia geometryczne, jakim może być poddany obraz.
+  - każdy piksel składowy w macierzy obrazu, może być poddany transformacji polegającej na przeniesieniu jego wartości do piksela o odpowiednio wyliczonym położeniu.
+  - Obliczenie to jest dokonywane poprzez mnożenie współrzędnych piksela przez macierz transformacji.
+  - Przykłady:
+    - translacja (przesunięcie)
+    - skalowanie
+    - odbicie
+    - obrót
+    - pochylenie
+    - dowolne złożenie powyższych
 - zmiana kontrastu
 - zmiana jasności 
 - zmiana nasycenia kolorów
@@ -130,21 +140,6 @@
   - Przykłady:
     - dylatacja - zwiększenie obiektu, zniknięcie detali i wypełnienie „dziur” w niespójnym obszarze
     - erozja - zmniejszenie obiektu, zniknięcie wąskich gałęzi i małych obiektów, likwidacja szumu, rozszerzenie się „dziur” w niespójnym obszarze
-
-###### Operacje afiniczne
-
-- podstawowe przekształcenia geometryczne, jakim może być poddany obraz.
-- każdy piksel składowy w macierzy obrazu, może być poddany transformacji polegającej na przeniesieniu jego wartości do piksela o odpowiednio wyliczonym położeniu.
-- Obliczenie to jest dokonywane poprzez mnożenie współrzędnych piksela przez macierz transformacji.
-- Przykłady:
-  - translacja (przesunięcie)
-  - skalowanie
-  - odbicie
-  - obrót
-  - pochylenie
-  - dowolne złożenie powyższych
-
----
 
 
 

@@ -315,7 +315,7 @@ Loss function === cost function
   - prawdziwe dane, np. zdjęcia ludzi. Są to pozytywne przykłady
   - fałszywe fane, otrzymywane z generatora. Są to negatywne przykłady
 - 2 funkcje straty:
-  - funkcja straty od generatora. Ignorowana podczas treningu dyskryminatora.
+  - funkcja straty od generatora. Ignorowana podczas treningu dyskryminatora, używana podczas treningu generatora.
   - funkcja straty dyskryminatora, używana podczas treningu dyskryminatora.
 - Trening:
   - klasyfikacja danych prawdziwych treningowych i fałszywych, z generatora
@@ -731,7 +731,7 @@ Wady:
 - Abstracja - Każdy obiekt w systemie służy jako model abstrakcyjnego „wykonawcy”, który może wykonywać pracę, opisywać i zmieniać swój stan oraz komunikować się z innymi obiektami w systemie bez ujawniania, w jaki sposób zaimplementowano dane cechy. 
 - Hermetyzacja - jest mechanizmem łączącym kod i dane, na których kod operuje, i chroni je przed niepowołanym dostępem i niewłaściwym użyciem. Pewne dane i metody obiektów danej klasy są ukrywane, czyli dostępne jedynie metodom wewnętrznym danej klasy. 
 - Dziedziczenie - mechanizm udostępniania wspólnych cech. Polega na stworzeniu nowe klasy, zwanej podklasą na podstawie już istniejącej klasy bazowej, zwanej nadklasą. Wyróżniamy dziedzieczenie pojedyńcze i wieloktrone
-- Polimorfizm - mechanizmy pozwalające programiście używać zmiennych i funckji na kilka różnych sposobów. Inaczej mówiąc jest to możliwość wyabstrahowania wyrażeń od konkretnych typów
+- Polimorfizm - pozwala pisać ogólne interfejsy, bez dostarczania implementacji odpowiednich dla każdego przypadku. Są to mechanizmy pozwalające programiście używać zmiennych i funckji na kilka różnych sposobów.
 
 ### Arytmetyka stało- i zmiennoprzecinkowa.
 
@@ -803,7 +803,6 @@ https://en.wikipedia.org/wiki/Database_normalization#Example_of_a_step_by_step_n
 Cele:
 
 - Uniknięcie redundancji
-- Wyeliminowanie niewygodnych relacji wieloznacznych.
 - Uniknięcie anomalii przy aktualizacji: modyfikacji, wstawianiu i usuwaniu. 
 - Unikniecie niespójności. 
 
@@ -1100,7 +1099,7 @@ Jeśli biblioteka pthreads implementuje opcję **TSH** (Thread Process-Shared Sy
 - semafory - procesy z nich korzystające mogą blokować wejście do określonych części kodu
   - binarny
     - może przyjmować wartości całkowite ze zbioru {0, 1}
-    - operacja P (wait) - oczekiwanie, dopóki zasób chroniony przez semafor stanie się dostępny, a następnie jest zajmowany. 
+    - operacja P (wait) - oczekiwanie, dopóki zasób chroniony przez semafor stanie się dostępny, a następnie jest zajmowany. Obniża licznik semafora. Jeśli licznik jest ujemny, proces jest wtrzymywany
     - operacja V (signal) - zwalnianie zasobu
   - zliczający
     - może przyjmować wartości całkowite ze zbioru {0, inf}
